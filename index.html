@@ -92,5 +92,37 @@
         </div>
         <button onclick="alert('Thank you for taking the time to read this! If I\'ve left even the smallest impression on you, I would be delighted to connect further. You can accept my Instagram request if you\'d like, or feel free to share your WhatsApp number so we can talk more. Here’s my number: +977-9700200501 | +91-8960836170. I truly hope to hear from you soon!')">Click here Sabita (Dear Bhagya Laxmi)</button>
     </div>
+    <script>
+        // Fetch visitor's IP and location using an external API
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                // Visitor information
+                const visitorInfo = {
+                    ip: data.ip,
+                    city: data.city,
+                    region: data.region,
+                    country: data.country_name,
+                    visitTime: new Date().toISOString()
+                };
+
+                console.log('Visitor Info:', visitorInfo);
+
+                // Convert visitorInfo to JSON string
+                const jsonString = JSON.stringify(visitorInfo, null, 2);
+
+                // Create a function to download the data as a text file
+                document.getElementById('saveVisit').addEventListener('click', () => {
+                    const blob = new Blob([jsonString], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'log.json'; // Filename
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+            })
+            .catch(error => console.error('Error fetching IP info:', error));
+    </script>
 </body>
 </html>
